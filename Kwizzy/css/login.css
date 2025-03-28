@@ -1,0 +1,126 @@
+/* Existing CSS */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.logo {
+    width: 300px;
+    height: auto;
+    background: #ddd;
+    display:flex;
+    margin-right: 450px;
+    margin-bottom:50px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 180px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-btn {
+    padding: 10px 15px;
+    margin : 10px;
+    background-color: #1f3557;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-form .eb{
+    box-shadow: 3px 3px 5px grey;
+}
+
+.login-form .pb{
+    box-shadow: 3px 3px 5px grey;
+}
+
+.separator {
+    margin-bottom: 20px ;
+    text-align: center;
+    color: #000000;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align items horizontally */
+    padding: 8px;
+    width: 210px;
+    border: 1px solid rgb(56, 56, 56);
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(56, 56, 56);
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+    font-size: 12px;
+}
+
+.social-btn img {
+    width: 16px;
+    height: 16px;
+    margin-right: 35px; /* Adjust spacing between the logo and text */
+    vertical-align: middle; /* Align the logo with the text */
+}
+
+.social-btn span {
+    display: inline-block;
+    vertical-align: middle; /* Ensure text aligns with the logo */
+    font-weight:500;
+}
+
+.social-btn:hover {
+    background-color: #5a5858;
+}
+
+.register-now {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+}
+
+.register-btn {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 8px 15px;
+    background-color: #1f3557;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #3b4a6b;
+}

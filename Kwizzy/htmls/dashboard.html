@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Custom Scrollbar Styles */
+        .main-content::-webkit-scrollbar,
+        .profile-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .main-content::-webkit-scrollbar-track,
+        .profile-section::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .main-content::-webkit-scrollbar-thumb,
+        .profile-section::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover,
+        .profile-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        /* For Firefox */
+        .main-content,
+        .profile-section {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+        }
+
+        body {
+            background-color: #87B5FF;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 80px;
+            background-color: white;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 90px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .sidebar .logo {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 40px;
+        }
+
+        .sidebar img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .sidebar img:hover {
+            opacity: 1;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            margin-left: 80px;
+            margin-right: 300px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .code-input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .code-input {
+            background: white;
+            width: 400px;
+            padding: 15px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-input input {
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 5px 15px;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        .code-input .close-btn {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+
+        .divider {
+            text-align: center;
+            color: white;
+            margin: 30px 0;
+            font-size: 20px;
+        }
+
+        .quiz-section h2 {
+            color: white;
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 260px;
+            margin-top: 25px;
+        }
+
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 25px;
+            background: white;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .quiz-card::after {
+            content: '';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: #5c8ee6;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .quiz-card img {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .quiz-card h3 {
+            color: #1a73e8;
+            font-size: 28px;
+        }
+
+        .profile-section {
+            width: 300px;
+            background: white;
+            padding: 30px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .profile-header h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .leaderboard h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .leaderboard-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-name {
+            font-weight: 500;
+        }
+
+        .player-points {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .rank-badge {
+            background: #ffd700;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="../images/wizzy.jpg" alt="Logo" class="logo">
+        <img src="../images/Icons/87B5FF/Home Blue.png" alt="Home">
+        <img src="../images/Icons/87B5FF/Weekly Blue.png" alt="Weekly">
+        <img src="../images/Icons/87B5FF/Analytics Blue'.png" alt="Analytics">
+        <img src="../images/Icons/87B5FF/History Blue.png" alt="History">
+        <img src="../images/Icons/87B5FF/Settings Blue.png" alt="Settings">
+    </div>
+
+    <div class="main-content">
+        <div class="code-input-container">
+            <div class="code-input">
+                <input type="text" placeholder="Enter Code">
+                <span class="close-btn">×</span>
+            </div>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <div class="quiz-section">
+            <h2>Upcoming Quizzes</h2>
+            <div class="quiz-grid">
+                <div class="quiz-card">
+                    <img src="../images/planning.png" alt="ICT 307">
+                    <h3>ICT 307</h3>
+                </div>
+                <div class="quiz-card">
+                    <img src="../images/settings.png" alt="ICT 305">
+                    <h3>ICT 305</h3>
+                </div>
+                <div class="quiz-card">
+                    <img src="../images/hack.png" alt="ICT 306">
+                    <h3>ICT 306</h3>
+                </div>
+                <div class="quiz-card">
+                    <img src="../images/quiz-icon.png" alt="ICT 205">
+                    <h3>ICT 205</h3>
+                </div>
+                <div class="quiz-card">
+                    <img src="../images/quiz-icon.png" alt="ICT 309">
+                    <h3>ICT 309</h3>
+                </div>
+                <div class="quiz-card">
+                    <img src="../images/quiz-icon.png" alt="ICT 105">
+                    <h3>ICT 105</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-section">
+        <div class="profile-header">
+            <img src="../images/profile.png" alt="Profile">
+            <h2>Hi Sujal!</h2>
+        </div>
+
+        <div class="leaderboard">
+            <h3>Leaderboard</h3>
+            <div class="leaderboard-item">
+                <div class="rank-badge">1</div>
+                <img src="../images/avatar1.png" alt="P. Manandhar">
+                <div class="player-info">
+                    <div class="player-name">P. Manandhar</div>
+                    <div class="player-points">2,569 points</div>
+                </div>
+            </div>
+            <div class="leaderboard-item">
+                <div class="rank-badge">2</div>
+                <img src="../images/avatar2.png" alt="A. Shrestha">
+                <div class="player-info">
+                    <div class="player-name">A. Shrestha</div>
+                    <div class="player-points">1,469 points</div>
+                </div>
+            </div>
+            <div class="leaderboard-item">
+                <div class="rank-badge">3</div>
+                <img src="../images/avatar3.png" alt="S. Shrestha">
+                <div class="player-info">
+                    <div class="player-name">S. Shrestha</div>
+                    <div class="player-points">1,053 points</div>
+                </div>
+            </div>
+            <div class="leaderboard-item">
+                <div class="rank-badge">4</div>
+                <img src="../images/avatar4.png" alt="P. Subedi">
+                <div class="player-info">
+                    <div class="player-name">P. Subedi</div>
+                    <div class="player-points">590 points</div>
+                </div>
+            </div>
+            <div class="leaderboard-item">
+                <div class="rank-badge">5</div>
+                <img src="../images/avatar5.png" alt="S. Pantha">
+                <div class="player-info">
+                    <div class="player-name">S. Pantha</div>
+                    <div class="player-points">448 points</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
